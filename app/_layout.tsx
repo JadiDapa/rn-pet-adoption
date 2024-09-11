@@ -2,6 +2,7 @@ import * as SecureStore from "expo-secure-store";
 import { useFonts } from "expo-font";
 import { Slot, Stack } from "expo-router";
 import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export interface TokenCache {
   getToken: (key: string) => Promise<string | undefined | null>;
@@ -55,15 +56,19 @@ export default function RootLayout() {
     outfitExtraLight: require("./../assets/fonts/Outfit-ExtraLight.ttf"),
   });
 
+  const queryClient = new QueryClient();
+
   return (
-    <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
-      <ClerkLoaded>
-        <Stack>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="login/index" options={{ headerShown: false }} />
-        </Stack>
-      </ClerkLoaded>
-    </ClerkProvider>
+    <QueryClientProvider client={queryClient}>
+      <ClerkProvider publishableKey={publishableKey} tokenCache={tokenCache}>
+        <ClerkLoaded>
+          <Stack>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="login/index" options={{ headerShown: false }} />
+          </Stack>
+        </ClerkLoaded>
+      </ClerkProvider>
+    </QueryClientProvider>
   );
 }
