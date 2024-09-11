@@ -1,6 +1,6 @@
 import React from "react";
 import * as WebBrowser from "expo-web-browser";
-import { View, Button, Pressable, Text } from "react-native";
+import { Pressable, Text } from "react-native";
 import { useOAuth } from "@clerk/clerk-expo";
 import * as Linking from "expo-linking";
 
@@ -24,7 +24,7 @@ const SignInWithOAuth = () => {
     try {
       const { createdSessionId, signIn, signUp, setActive } =
         await startOAuthFlow({
-          redirectUrl: Linking.createURL("/home", { scheme: "myapp" }),
+          redirectUrl: Linking.createURL("/(tabs)/home", { scheme: "myapp" }),
         });
 
       if (createdSessionId) {
